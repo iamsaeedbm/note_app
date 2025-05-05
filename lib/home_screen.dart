@@ -26,11 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   backgroundColor: Colors.amber,
                   textStyle: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                onPressed: () {
-                  setState(() {
-                    inputText = controller.text;
-                  });
-                },
+                onPressed: () {},
                 child: Text('press'),
               ),
               SizedBox(height: 30),
@@ -40,9 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   textStyle: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 onPressed: () {
-                  setState(() {
-                    inputText = controller.text;
-                  });
+                  box.put(1, controller);
                 },
                 child: Text('create'),
               ),
@@ -52,12 +46,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   backgroundColor: Colors.amber,
                   textStyle: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                onPressed: () {
-                  setState(() {
-                    inputText = controller.text;
-                  });
-                },
+                onPressed: () {},
                 child: Text('read'),
+              ),
+              SizedBox(height: 30),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.amber,
+                  textStyle: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                onPressed: () {},
+                child: Text('update'),
               ),
             ],
           ),
