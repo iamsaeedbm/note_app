@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
-import 'package:note_app/home_screen.dart';
+import 'package:note_app/screens/home_screen.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -13,6 +13,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: HomeScreen());
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData.dark(),
+      home: HomeScreen(),
+    );
   }
 }
