@@ -40,21 +40,36 @@ class _HomeScreenState extends State<HomeScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        MSHCheckbox(
-          size: 30,
-          value: isChecked,
-          colorConfig: MSHColorConfig.fromCheckedUncheckedDisabled(
-            checkedColor: Colors.green,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  MSHCheckbox(
+                    size: 30,
+                    value: isChecked,
+                    colorConfig: MSHColorConfig.fromCheckedUncheckedDisabled(
+                      checkedColor: Colors.green,
+                    ),
+                    style: MSHCheckboxStyle.fillScaleCheck,
+                    onChanged: (selected) {
+                      setState(() {
+                        isChecked = selected;
+                      });
+                    },
+                  ),
+                  Text('title'),
+                ],
+              ),
+              Text('second title'),
+              Spacer(),
+              getTimeAndEditBadgs(),
+            ],
           ),
-          style: MSHCheckboxStyle.fillScaleCheck,
-          onChanged: (selected) {
-            setState(() {
-              isChecked = selected;
-            });
-          },
         ),
-        Spacer(),
-        getTimeAndEditBadgs(),
+        SizedBox(width: 20),
         Image.asset('images/workout.png'),
       ],
     );
@@ -63,8 +78,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Column getTimeAndEditBadgs() {
     return Column(
       children: [
-        Text('data'),
-        Text('data'),
         Row(
           children: [
             Container(
