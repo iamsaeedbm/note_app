@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive_ce/hive.dart';
-import 'package:msh_checkbox/msh_checkbox.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
+import 'package:note_app/data/task.dart';
+import 'package:note_app/screens/add_task_screen.dart';
+import 'package:note_app/widgets/task_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,131 +16,31 @@ class _HomeScreenState extends State<HomeScreen> {
   var box = Hive.box('names');
   String inputText = '';
   var controller = TextEditingController();
-  bool isChecked = false;
+  var taskBox = Hive.box<Task>('taskBox');
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: SafeArea(child: Center(child: getTaskItem())));
-  }
-
-  Container getTaskItem() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      height: 132,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.blueGrey,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: getMainContent(),
-      ),
-    );
-  }
-
-  Row getMainContent() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  MSHCheckbox(
-                    size: 30,
-                    value: isChecked,
-                    colorConfig: MSHColorConfig.fromCheckedUncheckedDisabled(
-                      checkedColor: Colors.green,
-                    ),
-                    style: MSHCheckboxStyle.fillScaleCheck,
-                    onChanged: (selected) {
-                      setState(() {
-                        isChecked = selected;
-                      });
-                    },
-                  ),
-                  Text('title'),
-                ],
-              ),
-              Text('second title'),
-              Spacer(),
-              getTimeAndEditBadgs(),
-            ],
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: ListView.builder(
+            itemCount: taskBox.length,
+            itemBuilder: ((context, index) {
+              var task = taskBox.values.toList()[index];
+              return TaskWidget(task: task);
+            }),
           ),
         ),
-        SizedBox(width: 20),
-        Image.asset('images/workout.png'),
-      ],
-    );
-  }
-
-  Column getTimeAndEditBadgs() {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Container(
-              width: 90,
-              height: 30,
-              decoration: BoxDecoration(
-                color: Colors.greenAccent,
-                borderRadius: BorderRadius.circular(18),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 6,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      '22:22',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Image.asset('images/icon_time.png'),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(width: 10),
-            Container(
-              width: 90,
-              height: 30,
-              decoration: BoxDecoration(
-                color: Colors.greenAccent[100],
-                borderRadius: BorderRadius.circular(18),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 6,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'edit',
-                      style: TextStyle(
-                        color: Colors.green,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Image.asset('images/icon_edit.png'),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (context) => AddTaskScreen()));
+        },
+        backgroundColor: Colors.greenAccent,
+        child: Image.asset('images/icon_add.png'),
+      ),
     );
   }
 }

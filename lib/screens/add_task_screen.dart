@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive_ce_flutter/adapters.dart';
+import 'package:note_app/data/task.dart';
 
 class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({super.key});
@@ -12,6 +14,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   FocusNode focusNode2 = FocusNode();
   final TextEditingController controllerTaskTitle = TextEditingController();
   final TextEditingController controllerTaskSubTitle = TextEditingController();
+  final box = Hive.box<Task>('taskBox');
   @override
   void initState() {
     super.initState();
@@ -65,7 +68,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 44),
                 child: TextField(
-                  controller: controllerTaskTitle,
+                  controller: controllerTaskSubTitle,
                   focusNode: focusNode2,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(
@@ -92,11 +95,26 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 ),
               ),
               Spacer(),
-              ElevatedButton(onPressed: () {}, child: Text('add task')),
+              ElevatedButton(
+                onPressed: () {
+                  String taskTitle = controllerTaskTitle.text;
+                  String taskSubTitle = controllerTaskSubTitle.text;
+
+                  addTask(taskTitle, taskSubTitle);
+                  Navigator.of(context).pop();
+                },
+                child: Text('add task'),
+              ),
+              SizedBox(height: 50),
             ],
           ),
         ),
       ),
     );
+  }
+
+  addTask(String taskTitle, String taskSubTitle) {
+    var task = Task(title: taskTitle, subTitle: taskSubTitle);
+    box.add(task);
   }
 }
